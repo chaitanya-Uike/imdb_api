@@ -6,14 +6,17 @@ async function start() {
   try {
     const connection = await amqp.connect("amqp://rabbitMQ");
     const channel = await connection.createChannel();
+    const workerQueue = "search_queue";
 
     await channel.assertExchange(config.exchange, "direct", { durable: false });
-    const reply = await channel.assertQueue("", { exclusive: true });
-    await channel.bindQueue(reply.queue, config.exchange, "search");
+    await channel.assertQueue(workerQueue, {
+      exclusive: true,
+    });
+    await channel.bindQueue(workerQueue, config.exchange, "search");
 
     console.log("[search_service] Awaiting requests");
     channel.consume(
-      reply.queue,
+      workerQueue,
       (msg) => {
         const title = msg.content.toString();
 
