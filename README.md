@@ -6,4 +6,4 @@
 
 or
 
-### `docker compose up -d --scale search-service=no_of_instances> --scale title-service=no_of_instances`
+### `docker compose up -d --scale search-service=no_of_instances --scale title-service=no_of_instances`
