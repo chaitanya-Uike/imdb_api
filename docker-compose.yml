@@ -1,0 +1,9 @@
+version: '3.5'
+
+services:
+  rabbitMQ:
+    image: rabbitmq:3.11-management
+    hostname: my_rabbit
+    ports:
+      - '8080:15672'
+      - '5672:5672'
