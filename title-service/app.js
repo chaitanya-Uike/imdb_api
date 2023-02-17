@@ -4,7 +4,7 @@ const scrapeTitle = require("./scrapeTitle");
 
 async function start() {
   try {
-    const connection = await amqp.connect("amqp://localhost");
+    const connection = await amqp.connect("amqp://rabbitMQ");
     const channel = await connection.createChannel();
 
     await channel.assertExchange(config.exchange, "direct", { durable: false });

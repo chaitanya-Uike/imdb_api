@@ -1,14 +1,16 @@
 const fastify = require("fastify")({ logger: true });
 const amqp = require("amqplib");
 const config = require("./config");
+const RequestManager = require("./lib/RequestManager");
 
 fastify.register(require("./routes/imdb"));
 
 const start = async () => {
   let rabbitMQConnection;
   try {
-    rabbitMQConnection = await amqp.connect("amqp://localhost");
+    rabbitMQConnection = await amqp.connect("amqp://rabbitMQ");
     const channel = await rabbitMQConnection.createChannel();
+    const requestManager = new RequestManager();
 
     await channel.assertExchange(config.exchange, "direct", { durable: false });
     await channel.assertQueue(config.rpcResponseQueue, { exclusive: true });
@@ -23,8 +25,9 @@ const start = async () => {
       config.rpcResponseQueue,
       (message) => {
         const res = message.content.toString();
+        const correlationId = message.properties.correlationId;
 
-        console.log("response recieved", res);
+        requestManager.dispatch(correlationId, res);
 
         channel.ack(message);
       },
@@ -34,7 +37,8 @@ const start = async () => {
     );
 
     fastify.decorate("channel", channel);
-    await fastify.listen({ port: 5000 });
+    fastify.decorate("requestManager", requestManager);
+    await fastify.listen({ port: 5000, host: "0.0.0.0" });
   } catch (error) {
     fastify.log.error(error);
     rabbitMQConnection && rabbitMQConnection.close();

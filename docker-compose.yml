@@ -3,7 +3,26 @@ version: '3.5'
 services:
   rabbitMQ:
     image: rabbitmq:3.11-management
-    hostname: my_rabbit
+    restart: always
     ports:
       - '8080:15672'
       - '5672:5672'
+  search_service:
+    build: ./search-service
+    restart: always
+    depends_on:
+      - rabbitMQ
+  title_service:
+    build: ./title-service
+    restart: always
+    depends_on:
+      - rabbitMQ
+  app:
+    build: ./gateway
+    restart: always
+    ports:
+      - '5000:5000'
+    depends_on:
+      - rabbitMQ
+      - search_service
+      - title_service
