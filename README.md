@@ -7,7 +7,7 @@
 
 or
 
-`docker compose up -d --scale search_service=no_of_instances --scale title_service=no_of_instances`
+`docker compose up -d --scale search_service={no_of_instances} --scale title_service={no_of_instances}`
 
 
 ## search titles:
