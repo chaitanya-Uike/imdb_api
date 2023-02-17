@@ -2,11 +2,12 @@
 
 ## to run project locally:
 
-### in root directory run: `docker compose up -d`
+### in root directory run: 
+`docker compose up -d`
 
 or
 
-### `docker compose up -d --scale search_service=no_of_instances --scale title_service=no_of_instances`
+`docker compose up -d --scale search_service=no_of_instances --scale title_service=no_of_instances`
 
 
 ## search titles:
