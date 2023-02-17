@@ -9,9 +9,7 @@ async function start() {
     const workerQueue = "search_queue";
 
     await channel.assertExchange(config.exchange, "direct", { durable: false });
-    await channel.assertQueue(workerQueue, {
-      exclusive: true,
-    });
+    await channel.assertQueue(workerQueue);
     await channel.bindQueue(workerQueue, config.exchange, "search");
 
     console.log("[search_service] Awaiting requests");

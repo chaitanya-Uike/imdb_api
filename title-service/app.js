@@ -10,7 +10,7 @@ async function start() {
     const workerQueue = "title_queue";
 
     await channel.assertExchange(config.exchange, "direct", { durable: false });
-    await channel.assertQueue(workerQueue, { exclusive: true });
+    await channel.assertQueue(workerQueue);
     await channel.bindQueue(workerQueue, config.exchange, "title");
 
     console.log("[title_service] Awaiting requests");
