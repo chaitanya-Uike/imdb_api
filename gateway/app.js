@@ -24,7 +24,7 @@ const start = async () => {
       (message) => {
         const res = message.content.toString();
 
-        console.log(res);
+        console.log("response recieved", res);
 
         channel.ack(message);
       },

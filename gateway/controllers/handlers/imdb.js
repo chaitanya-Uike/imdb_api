@@ -15,6 +15,11 @@ function search(request, reply) {
 function title(request, reply) {
   const { id } = request.params;
 
+  this.channel.publish(config.exchange, "title", Buffer.from(id), {
+    correlationId: uuid(),
+    replyTo: config.rpcResponseQueue,
+  });
+
   return { id };
 }
 
