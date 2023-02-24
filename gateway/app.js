@@ -5,6 +5,10 @@ const RequestManager = require("./lib/RequestManager");
 
 fastify.register(require("./routes/imdb"));
 
+fastify.register(require("@fastify/cors"), {
+  origin: true,
+});
+
 const start = async () => {
   let rabbitMQConnection;
   try {
