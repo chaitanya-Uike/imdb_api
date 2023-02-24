@@ -8,6 +8,7 @@
     "dev": "nodemon app"
   },
   "dependencies": {
+    "@fastify/cors": "^8.2.0",
     "amqplib": "^0.10.3",
     "fastify": "^4.13.0",
     "uuid": "^9.0.0"
